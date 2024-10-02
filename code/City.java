@@ -9,7 +9,7 @@ public class City {
     public int x; // x coordinate of the city
     public int y; // y coordinate of the city
 
-    public City(String cityName,int x,int y) { //Constructor
+    public City(String cityName,int x,int y) { // Constructor
         this.cityName = cityName;
         this.x = x;
         this.y = y;
