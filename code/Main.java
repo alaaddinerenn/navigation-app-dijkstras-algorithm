@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 /**
- * Program is a Turkey city navigation application
+ * Program is a a navigation app to find the shortest route between to cities by implementing Dijkstra's algorithm.
  * @author Alaaddin Eren Namlı
  * @since Date: 04.04.2024
  */
