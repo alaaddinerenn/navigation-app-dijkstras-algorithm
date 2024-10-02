@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 
         // File reading
-        String fileName1 = "city_coordinates.txt"; // file name 1
-        String fileName2 = "city_connections.txt"; // file name 2
+        String fileName1 = "city_coordinates.txt";
+        String fileName2 = "city_connections.txt";
 
         File file1 = new File(fileName1); // Creates the first file object
         File file2 = new File(fileName2); // Creates the second file object
@@ -38,25 +38,25 @@ public class Main {
 
         while (inputFile1.hasNextLine()) { // Reads city_coordinates(file1)
             String line = inputFile1.nextLine(); // Reads the next line
-            String[] lineParts = line.split(", "); // Split the line
+            String[] lineParts = line.split(", ");
             String cityName = lineParts[0]; // First element is city name
             int xCoordinate = Integer.parseInt(lineParts[1]); // Second element is the x coordinate of the city
             int yCoordinate = Integer.parseInt(lineParts[2]); // Third element is the y coordinate of the city
             cityNames.add(cityName); // Add the city name to the cityNames arraylist
             City city = new City(cityName,xCoordinate,yCoordinate); // Create new city object with those parameters from the file
-            cities.add(city); // Add the city to the cities arraylist
+            cities.add(city);
         }
-        inputFile1.close(); // Close the file1
+        inputFile1.close();
 
         while (inputFile2.hasNextLine()) { // Reads city_connections(file2)
             String line = inputFile2.nextLine(); // Reads the next line
-            String[] lineParts = line.split(","); // Split the line
+            String[] lineParts = line.split(",");
             ArrayList<String> producer = new ArrayList<String>(); // Create a new arraylist to produce matrix
             producer.add(lineParts[0]);  // Add the first city to the producer arraylist
             producer.add(lineParts[1]); // Add the second city to the producer arraylist
             cityConnections.add(producer); // Add the producer arraylist to the cityConnections arraylist
         }
-        inputFile2.close(); // Close the file2
+        inputFile2.close();
 
         // Create matrix that contains distances between the cities and their neighbours
         // This matrix is size of number of cities times number of cities
@@ -79,8 +79,8 @@ public class Main {
         for (int i = 0; i < cityConnections.size(); i++) {
             String city1 = cityConnections.get(i).get(0); // Get city1 string from cityConnections
             String city2 = cityConnections.get(i).get(1); // Get city2 string from cityConnections
-            int indexOfCity1 = cityNames.indexOf(city1); // Get index of city1 from cityNames
-            int indexOfCity2 = cityNames.indexOf(city2); // Get index of city2 from cityNames
+            int indexOfCity1 = cityNames.indexOf(city1);
+            int indexOfCity2 = cityNames.indexOf(city2);
 
             distanceMatrix.get(indexOfCity1).set(indexOfCity2,distanceCalculator(city1,city2,cities,cityNames)); // Replace the value 0.0 at the index of city1 in distanceMatrix with the distance between city1 and city2
             distanceMatrix.get(indexOfCity2).set(indexOfCity1,distanceCalculator(city1,city2,cities,cityNames)); // Replace the value 0.0 at the index of city2 in distanceMatrix with the distance between city1 and city2
@@ -138,38 +138,38 @@ public class Main {
 
         if (!citiesOnThePath.isEmpty()) {
             StdDraw.setCanvasSize(width/2,height/2);
-            StdDraw.setXscale(0.0,2377.0); // Sets x scale from 0.0 to 2377.0
-            StdDraw.setYscale(0.0,1055.0); // Sets y scale from 0.0 to 2377.0
+            StdDraw.setXscale(0.0,2377.0);
+            StdDraw.setYscale(0.0,1055.0);
             StdDraw.picture(width/2.0,height/2.0,"map.png",2377.0,1055.0); // Draws the map
             StdDraw.enableDoubleBuffering(); // Enables double buffering
 
             for (int k = 0; k < cities.size(); k++) { // Draws city dots and names
-                StdDraw.setPenColor(StdDraw.GRAY); // Set pen color to gray
+                StdDraw.setPenColor(StdDraw.GRAY);
                 StdDraw.filledCircle(cities.get(k).x,cities.get(k).y,5.0); // Draw the city dot
-                StdDraw.setFont(new Font("Arial",Font.BOLD,12)); // Set font to Arial Bold size of 12
+                StdDraw.setFont(new Font("Arial",Font.BOLD,12));
                 StdDraw.text(cities.get(k).x,cities.get(k).y + 15.0,cities.get(k).cityName); // Write the name of the city
             }
 
             for (int i = 0; i < cityConnections.size(); i++) { // Draws roads between cities
-                String city1 = cityConnections.get(i).get(0); // Get city1 string
-                String city2 = cityConnections.get(i).get(1); // Get city2 string
-                int index1 = cityNames.indexOf(city1); // Get index of city1
-                int index2 = cityNames.indexOf(city2); // Get index of city2
+                String city1 = cityConnections.get(i).get(0);
+                String city2 = cityConnections.get(i).get(1);
+                int index1 = cityNames.indexOf(city1);
+                int index2 = cityNames.indexOf(city2);
                 StdDraw.line(cities.get(index1).x,cities.get(index1).y,cities.get(index2).x,cities.get(index2).y); // Draw the line between city1 and city2
             }
 
             if(citiesOnThePath.size() == 1) { // If there is one city on the route
-                StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE); // Set pen color to light blue
+                StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
                 StdDraw.filledCircle(cities.get(startingCityIndex).x, cities.get(startingCityIndex).y, 5.0); // Draw the city dot
                 StdDraw.text(cities.get(startingCityIndex).x, cities.get(startingCityIndex).y + 15.0, cities.get(startingCityIndex).cityName); // Write the name of the city
                 StdDraw.show(); // Show the drawing
             } else { // If there is more than one cities on the route
                 for (int i = 0; i < route.size() - 1; i++) { // For each road on the route draw it on the map
-                    StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE); // Set pen color to light blue
+                    StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
                     StdDraw.filledCircle(route.get(i).x, route.get(i).y, 5.0); // Draw the city dot
-                    StdDraw.setFont(new Font("Arial", Font.BOLD, 12)); // Set font to Arial Bold size of 12
+                    StdDraw.setFont(new Font("Arial", Font.BOLD, 12));
                     StdDraw.text(route.get(i).x, route.get(i).y + 15.0, route.get(i).cityName); // Write the name of the city
-                    StdDraw.setPenRadius(0.008); // Set pen radius to 0.008
+                    StdDraw.setPenRadius(0.008);
                     StdDraw.line(route.get(i).x, route.get(i).y, route.get(i + 1).x, route.get(i + 1).y); // Draw the line between cities
                 }
                 StdDraw.filledCircle(route.getLast().x, route.getLast().y, 5.0); // Draw the last city dot
@@ -189,8 +189,8 @@ public class Main {
      * @return The distance between two cities
      */
     public static double distanceCalculator(String cityName1,String cityName2,ArrayList<City> cities,ArrayList<String> cityNames  ) {
-        int city1Index = cityNames.indexOf(cityName1); // Get the index of city1
-        int city2Index = cityNames.indexOf(cityName2); // Get the index of city2
+        int city1Index = cityNames.indexOf(cityName1);
+        int city2Index = cityNames.indexOf(cityName2);
         City city1 = cities.get(city1Index); // Get the city1 from cities arraylist
         City city2 = cities.get(city2Index); // Get the city2 from cities arraylist
         double xCoordinateOfCity1 = city1.x; // x coordinate of city1
